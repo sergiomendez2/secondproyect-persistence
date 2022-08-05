@@ -1,0 +1,12 @@
+select  p.NAME as player_highest_match ,
+        (count(pg.PLAYER_ID)+
+         count(pgr.PLAYER_ID)+
+         count(pto.PLAYER_ID)+
+         count(ptx.PLAYER_ID)) as total_matches from player p
+left join PLAYERGIVER pg on p.id = pg.PLAYER_ID
+left join playerguesser pgr on p.id = pgr.PLAYER_ID
+left join PLAYERO pto on p.id = pto.PLAYER_ID
+left join PLAYERX ptx on p.id = ptx.PLAYER_ID
+group by p.NAME, pgr.PLAYER_ID, pto.PLAYER_ID, ptx.PLAYER_ID
+order by total_matches desc
+fetch first 1 rows only
